@@ -69,6 +69,12 @@ select {
   color: inherit;
 }
 
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* ============================================================
    App shell — phone-frame on desktop, full bleed on mobile
    ============================================================ */
@@ -357,12 +363,101 @@ select {
   gap: 6px;
 }
 
+.checkchip {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.checkchip__input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkchip__ui {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-soft);
+  background: var(--bg-elev);
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 120ms ease, border-color 120ms ease,
+    color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+}
+
+.checkchip__mark {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  border: 1.5px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  transition: background 120ms ease, border-color 120ms ease,
+    transform 120ms ease;
+}
+
+.checkchip__mark::after {
+  content: "";
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transform: rotate(-45deg) translateY(-1px);
+  transition: border-color 120ms ease;
+}
+
+.checkchip__input:checked + .checkchip__ui {
+  background: var(--accent);
+  border-color: var(--accent-2);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(225, 109, 92, 0.18);
+}
+
+.checkchip__input:checked + .checkchip__ui .checkchip__mark {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+.checkchip__input:checked + .checkchip__ui .checkchip__mark::after {
+  border-left-color: #fff;
+  border-bottom-color: #fff;
+}
+
+.checkchip__input:focus-visible + .checkchip__ui {
+  outline: 2px solid rgba(225, 109, 92, 0.25);
+  outline-offset: 2px;
+}
+
+.checkchip:active .checkchip__ui {
+  transform: translateY(1px);
+}
+
 /* sketchy chip rotation accents */
 .chip:nth-child(3n) {
   transform: rotate(-1deg);
 }
 .chip:nth-child(4n + 1) {
   transform: rotate(0.6deg);
+}
+.checkchip:nth-child(3n) .checkchip__ui {
+  transform: rotate(-1deg);
+}
+.checkchip:nth-child(4n + 1) .checkchip__ui {
+  transform: rotate(0.6deg);
+}
+.checkchip:active:nth-child(3n) .checkchip__ui,
+.checkchip:active:nth-child(4n + 1) .checkchip__ui {
+  transform: translateY(1px);
 }
 
 /* ============================================================

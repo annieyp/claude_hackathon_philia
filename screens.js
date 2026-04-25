@@ -25,6 +25,15 @@ const header = ({ left = "", center = "", right = "" } = {}) => /*html*/ `
 const back = (href = "#/home") =>
   `<a class="iconbtn" href="${href}" aria-label="Back">←</a>`;
 
+const checkChip = (label, checked = false) => /*html*/ `
+  <label class="checkchip">
+    <input class="checkchip__input" type="checkbox" ${checked ? "checked" : ""} />
+    <span class="checkchip__ui">
+      <span class="checkchip__mark" aria-hidden="true"></span>
+      <span class="checkchip__text">${label}</span>
+    </span>
+  </label>`;
+
 /* =====================================================
    ONBOARDING — A · Manifesto
    ===================================================== */
@@ -110,9 +119,6 @@ export function renderOnboardSwarm() {
    ONBOARDING — Vibe picker (step 3)
    ===================================================== */
 export function renderOnboardVibe() {
-  const vibeChip = (label, on) =>
-    `<span class="chip ${on ? "chip--accent chip--check" : "chip--soft"}">${label}</span>`;
-
   return /*html*/ `
   ${statusbar()}
   <div class="stepper__row">
@@ -137,28 +143,28 @@ export function renderOnboardVibe() {
   </div>
 
   <div class="chip-row">
-    ${vibeChip("ramen", true)} ${vibeChip("boba", true)} ${vibeChip("vegetarian", false)} ${vibeChip("quiet", false)}
-    ${vibeChip("loud", true)} ${vibeChip("cheap eats", true)} ${vibeChip("try new spots", true)}
-    ${vibeChip("sushi", false)} ${vibeChip("pizza", false)} ${vibeChip("coffee", true)} ${vibeChip("post-class", true)}
-    ${vibeChip("late night", false)} <span class="chip chip--soft" style="border-style:dashed;">+ add</span>
+    ${checkChip("ramen", true)} ${checkChip("boba", true)} ${checkChip("vegetarian", false)} ${checkChip("quiet", false)}
+    ${checkChip("loud", true)} ${checkChip("cheap eats", true)} ${checkChip("try new spots", true)}
+    ${checkChip("sushi", false)} ${checkChip("pizza", false)} ${checkChip("coffee", true)} ${checkChip("post-class", true)}
+    ${checkChip("late night", false)} <span class="chip chip--soft" style="border-style:dashed;">+ add</span>
   </div>
 
   <div class="divider"></div>
   <div class="eyebrow">budget range</div>
   <div class="chip-row">
-    <span class="chip chip--accent">$</span>
-    <span class="chip chip--accent">$$</span>
-    <span class="chip chip--soft">$$$</span>
-    <span class="chip chip--soft">$$$$</span>
+    ${checkChip("$", true)}
+    ${checkChip("$$", true)}
+    ${checkChip("$$$", false)}
+    ${checkChip("$$$$", false)}
   </div>
 
   <div class="eyebrow">group size I like</div>
   <div class="chip-row">
-    <span class="chip chip--accent">2</span>
-    <span class="chip chip--accent">3</span>
-    <span class="chip chip--soft">4</span>
-    <span class="chip chip--soft">5</span>
-    <span class="chip chip--soft">6</span>
+    ${checkChip("2", true)}
+    ${checkChip("3", true)}
+    ${checkChip("4", false)}
+    ${checkChip("5", false)}
+    ${checkChip("6", false)}
   </div>
 
   <a href="#/home" class="btn btn--primary">Find dinner tonight  →</a>`;
@@ -253,12 +259,12 @@ export function renderStart() {
 
   <div class="eyebrow">vibe (pick 1–3)</div>
   <div class="chip-row">
-    <span class="chip chip--accent">chill</span>
-    <span class="chip chip--accent">study after</span>
-    <span class="chip chip--soft">loud</span>
-    <span class="chip chip--soft">first dates ok</span>
-    <span class="chip chip--soft">quiet</span>
-    <span class="chip chip--accent">friend group</span>
+    ${checkChip("chill", true)}
+    ${checkChip("study after", true)}
+    ${checkChip("loud", false)}
+    ${checkChip("first dates ok", false)}
+    ${checkChip("quiet", false)}
+    ${checkChip("friend group", true)}
   </div>
 
   <div class="eyebrow">note to joiners (optional)</div>
