@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#FAF6F1" />
+    <title>philía — dinner with strangers, tonight</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./public/icon.svg" />
+    <link rel="apple-touch-icon" href="./public/icon.svg" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;1,500;1,700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <main id="screen" class="screen" aria-live="polite"></main>
+      <nav id="tabbar" class="tabbar" hidden>
+        <a href="#/home" data-tab="home" class="tab">
+          <span class="tab__icon">✺</span>
+          <span class="tab__label">Home</span>
+        </a>
+        <a href="#/map" data-tab="map" class="tab">
+          <span class="tab__icon">◴</span>
+          <span class="tab__label">Map</span>
+        </a>
+        <a href="#/start" data-tab="start" class="tab tab--fab">
+          <span class="tab__fab">+</span>
+        </a>
+        <a href="#/chat" data-tab="chat" class="tab">
+          <span class="tab__icon">◌</span>
+          <span class="tab__label">Chat</span>
+        </a>
+        <a href="#/me" data-tab="me" class="tab">
+          <span class="tab__icon">◉</span>
+          <span class="tab__label">Me</span>
+        </a>
+      </nav>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>

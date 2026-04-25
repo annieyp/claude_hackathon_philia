@@ -1,0 +1,20 @@
+{
+  "name": "philía — dinner with strangers, tonight",
+  "short_name": "philia",
+  "description": "Same-day spontaneous dining for verified students. Drop a plan, find one, eat together within 6 hours.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF6F1",
+  "theme_color": "#FAF6F1",
+  "categories": ["social", "food", "lifestyle"],
+  "icons": [
+    {
+      "src": "./public/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
