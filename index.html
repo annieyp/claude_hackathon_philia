@@ -48,10 +48,14 @@
 
     <script type="module" src="./app.js"></script>
     <script>
+      // SW disabled during dev so edits show up on reload.
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        navigator.serviceWorker.getRegistrations().then((rs) => {
+          rs.forEach((r) => r.unregister());
         });
+        if (window.caches) {
+          caches.keys().then((ks) => ks.forEach((k) => caches.delete(k)));
+        }
       }
     </script>
   </body>

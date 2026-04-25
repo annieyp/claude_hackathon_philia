@@ -7,9 +7,11 @@ import {
   renderJoin,
   renderMap,
   renderPlan,
+  renderAlgo,
   renderChat,
   renderProfile,
 } from "./screens.js";
+import { dropPlan, claimSeat, leavePlan } from "./store.js";
 
 const screen = document.getElementById("screen");
 const tabbar = document.getElementById("tabbar");
@@ -24,6 +26,8 @@ const routes = {
   "/join": { render: renderJoin, tab: "home" },
   "/map": { render: renderMap, tab: "map" },
   "/plan/:id": { render: renderPlan, tab: "home" },
+  "/algo": { render: renderAlgo, tab: "home" },
+  "/algo/:id": { render: renderAlgo, tab: "home" },
   "/chat": { render: renderChat, tab: "chat" },
   "/me": { render: renderProfile, tab: "me" },
 };
@@ -32,9 +36,7 @@ function matchRoute(path) {
   if (routes[path]) return routes[path];
   for (const pattern of Object.keys(routes)) {
     if (!pattern.includes(":")) continue;
-    const re = new RegExp(
-      "^" + pattern.replace(/:[^/]+/g, "[^/]+") + "$"
-    );
+    const re = new RegExp("^" + pattern.replace(/:[^/]+/g, "[^/]+") + "$");
     if (re.test(path)) return routes[pattern];
   }
   return routes["/"];
@@ -46,42 +48,73 @@ function navigate() {
   screen.innerHTML = route.render();
   screen.scrollTop = 0;
 
-  // tabbar visibility + active state
   if (route.tab) {
     tabbar.hidden = false;
     [...tabbar.querySelectorAll(".tab")].forEach((el) => {
-      el.classList.toggle(
-        "is-active",
-        el.dataset.tab === route.tab
-      );
+      el.classList.toggle("is-active", el.dataset.tab === route.tab);
     });
   } else {
     tabbar.hidden = true;
   }
 
-  // wire up local interactions on every render
   bindToggleChips();
+  bindActions();
 }
 
 function bindToggleChips() {
-  // Allow chips on the vibe picker / start screen to toggle without
-  // re-routing — keeps the demo feeling responsive.
   const togglables = screen.querySelectorAll(
     ".inlineform__chip, .chip-row .chip:not(a)"
   );
   togglables.forEach((el) => {
-    el.addEventListener("click", (e) => {
+    el.addEventListener("click", () => {
       const isAccent = el.classList.contains("chip--accent");
       const inForm = el.closest(".inlineform");
       if (inForm) {
-        // rotate visual accent only
         el.classList.toggle("inlineform__chip--ghost");
         return;
       }
-      // toggle chip styling
       el.classList.toggle("chip--accent");
       el.classList.toggle("chip--check");
       el.classList.toggle("chip--soft", isAccent);
+    });
+  });
+}
+
+function bindActions() {
+  screen.querySelectorAll("[data-action]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      const action = el.dataset.action;
+      if (action === "drop") {
+        const tags = [...screen.querySelectorAll("#vibe-picker .chip--accent")].map(
+          (c) => c.textContent.trim()
+        );
+        const note = screen.querySelector("#plan-note")?.value || "";
+        const startsAt = (() => {
+          const d = new Date();
+          d.setHours(19, 0, 0, 0);
+          return d;
+        })();
+        const p = dropPlan({
+          spot: "Mehak Indian Cuisine",
+          cuisine: "ramen",
+          emoji: "🍜",
+          location: "Collegetown",
+          loc: [42.4426, -76.4855],
+          startsAt,
+          vibeTags: tags.length ? tags : ["chill", "post-class"],
+          budgetTier: 2,
+          budgetPerPerson: 18,
+          note,
+        });
+        location.hash = `#/plan/${p.id}`;
+      } else if (action === "claim") {
+        claimSeat(el.dataset.plan);
+        navigate();
+      } else if (action === "leave") {
+        leavePlan(el.dataset.plan);
+        navigate();
+      }
     });
   });
 }

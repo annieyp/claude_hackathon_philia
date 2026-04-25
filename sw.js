@@ -1,4 +1,4 @@
-const CACHE = "philia-v1";
+const CACHE = "philia-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -6,6 +6,8 @@ const ASSETS = [
   "./app.js",
   "./screens.js",
   "./mock.js",
+  "./engine.js",
+  "./store.js",
   "./manifest.webmanifest",
   "./public/icon.svg",
 ];
